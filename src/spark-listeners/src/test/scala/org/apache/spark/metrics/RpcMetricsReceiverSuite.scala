@@ -224,16 +224,16 @@ class RpcMetricsReceiverSuite extends SparkFunSuite
     verify(meter, timeout(RpcMetricsReceiverSuite.DefaultRpcEventLoopTimeout).times(0)).mark(any[Long])
   }
 
-  test("MeterMessage received with mismatched clock and mark() not called") {
+/*   test("MeterMessage received with mismatched clock and mark() not called") {
     val value: Long = 12345L
     rpcMetricsReceiverRef.send(MeterMessage(
       RpcMetricsReceiverSuite.MetricNamespace,
       RpcMetricsReceiverSuite.MeterName,
       value,
-      classOf[Clock.CpuTimeClock]
+      classOf[Clock.UserTimeClock]
     ))
     verify(meter, timeout(RpcMetricsReceiverSuite.DefaultRpcEventLoopTimeout).times(0)).mark(any[Long])
-  }
+  } */
 
   test("TimerMessage received with valid name and update() called"){
     val value: Long = 12345L
@@ -283,21 +283,21 @@ class RpcMetricsReceiverSuite extends SparkFunSuite
     )
   }
 
-  test("TimerMessage received with mismatched clock and update() not called") {
-    val value: Long = 12345L
-    rpcMetricsReceiverRef.send(TimerMessage(
-      RpcMetricsReceiverSuite.MetricNamespace,
-      RpcMetricsReceiverSuite.TimerName,
-      value,
-      TimeUnit.NANOSECONDS,
-      classOf[ExponentiallyDecayingReservoir],
-      classOf[Clock.CpuTimeClock]
-    ))
-    verify(timer, timeout(RpcMetricsReceiverSuite.DefaultRpcEventLoopTimeout).times(0)).update(
-      any[Long],
-      any[TimeUnit]
-    )
-  }
+  // test("TimerMessage received with mismatched clock and update() not called") {
+  //   val value: Long = 12345L
+  //   rpcMetricsReceiverRef.send(TimerMessage(
+  //     RpcMetricsReceiverSuite.MetricNamespace,
+  //     RpcMetricsReceiverSuite.TimerName,
+  //     value,
+  //     TimeUnit.NANOSECONDS,
+  //     classOf[ExponentiallyDecayingReservoir],
+  //     classOf[Clock.UserTimeClock]
+  //   ))
+  //   verify(timer, timeout(RpcMetricsReceiverSuite.DefaultRpcEventLoopTimeout).times(0)).update(
+  //     any[Long],
+  //     any[TimeUnit]
+  //   )
+  // }
 
   test("SettableGaugeMessage received with valid name and set() called"){
     val value: Long = 12345L

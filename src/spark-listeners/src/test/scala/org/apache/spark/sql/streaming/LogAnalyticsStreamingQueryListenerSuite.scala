@@ -9,19 +9,20 @@ import org.scalatest.BeforeAndAfterEach
 import scala.collection.JavaConversions.mapAsJavaMap
 
 object LogAnalyticsStreamingQueryListenerSuite {
-  val queryStartedEvent = new QueryStartedEvent(UUID.randomUUID, UUID.randomUUID, "name")
+  val queryStartedEvent = new QueryStartedEvent(UUID.randomUUID, UUID.randomUUID, "name", ListenerSuite.EPOCH_TIME_AS_ISO8601)
   val queryTerminatedEvent = new QueryTerminatedEvent(UUID.randomUUID, UUID.randomUUID, None)
   val queryProgressEvent = new QueryProgressEvent(
     new StreamingQueryProgress(
-      UUID.randomUUID,
-      UUID.randomUUID,
-      null,
-      ListenerSuite.EPOCH_TIME_AS_ISO8601,
-      2L,
-      mapAsJavaMap(Map("total" -> 0L)),
-      mapAsJavaMap(Map.empty[String, String]),
+      UUID.randomUUID, //id: java.util.UUID
+      UUID.randomUUID, //runId: java.util.UUID
+      null, //name: String
+      ListenerSuite.EPOCH_TIME_AS_ISO8601, //timestamp: String
+      2L, //batchId: Long
+      0L, //batchDuration: Long
+      mapAsJavaMap(Map("total" -> 0L)), //durationMs: java.util.Map[String,Long]
+      mapAsJavaMap(Map.empty[String, String]), //eventTime: java.util.Map[String,String]
       Array(new StateOperatorProgress(
-        0, 1, 2)),
+        0, 1, 2)), //stateOperators: Array[org.apache.spark.sql.streaming.StateOperatorProgress]
       Array(
         new SourceProgress(
           "source",
@@ -31,8 +32,9 @@ object LogAnalyticsStreamingQueryListenerSuite {
           Double.NaN,
           Double.NegativeInfinity
         )
-      ),
-      new SinkProgress("sink")
+      ), //sources: Array[org.apache.spark.sql.streaming.SourceProgress]
+      new SinkProgress("sink"), //sink: org.apache.spark.sql.streaming.SinkProgress
+      null //observedMetrics: java.util.Map[String,org.apache.spark.sql.Row])org.apache.spark.sql.streaming.StreamingQueryProgress
     )
   )
 }

@@ -207,7 +207,7 @@ class RemoteMetricsSourceBuilderSuite extends SparkFunSuite
     assert(caught.getMessage == "RemoteMetricsSourceBuilder cannot be used on a driver")
   }
 
-  test("RpcUtils.makeDriverRef throws a SparkException") {
+  /* test("RpcUtils.makeDriverRef throws a SparkException") {
     doAnswer(new Answer[Void] {
       override def answer(invocation: InvocationOnMock): Void = {
         throw new SparkException("something bad happened")
@@ -222,7 +222,7 @@ class RemoteMetricsSourceBuilderSuite extends SparkFunSuite
     }
 
     assert(caught !== null)
-  }
+  } */
 
   test("valid namespace") {
     val builder = new RemoteMetricsSourceBuilder(
